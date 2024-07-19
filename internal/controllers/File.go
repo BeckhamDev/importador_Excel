@@ -4,12 +4,13 @@ import (
 	"importador_Excel/internal/database"
 	"importador_Excel/internal/scripts"
 	"net/http"
+	"os"
 	"sync"
 
 	"github.com/gin-gonic/gin"
 )
 
-func UploadFile(c *gin.Context){
+func UploadFile(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
@@ -34,7 +35,7 @@ func UploadFile(c *gin.Context){
 	defer db.Close()
 
 	// Cria canal de dados
-	ch := make(chan []string) 
+	ch := make(chan []string)
 
 	var wg sync.WaitGroup
 
@@ -46,21 +47,28 @@ func UploadFile(c *gin.Context){
 
 	// Inicia as goroutines consumidoras
 	for i := 0; i < numConsumers; i++ {
-        wg.Add(1)
-        go func() {
-            defer wg.Done()
-            if err := scripts.ConsumeFileAndSaveData(ch, &wg, db); err != nil {
-                c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			if err := scripts.ConsumeFileAndSaveData(ch, &wg, db); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 				return
-            }
-        }()
-    }
+			}
+		}()
+	}
 
 	// Lê o arquivo Excel e envia os dados para o canal
 	scripts.ReadFile(filePath, ch)
 
 	// Espera todas as goroutines consumidoras terminarem
 	wg.Wait()
+
+	//Apaga arquivo após salvar os dados
+	err = os.Remove(filePath)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Dados salvos com sucesso!"})
 }
