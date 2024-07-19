@@ -1,20 +1,18 @@
 package scripts
 
 import (
-	"fmt"
-	"importador_Excel/internal/database"
+	"database/sql"
 	"importador_Excel/internal/repository"
-	"log"
 	"sync"
 
 	"github.com/tealeg/xlsx"
 )
 
-func ReadFile(excelFileName string, ch chan<- []string) {
+func ReadFile(excelFileName string, ch chan<- []string) error {
 	// Abre o arquivo Excel
 	xlFile, err := xlsx.OpenFile(excelFileName)
 	if err != nil {
-		log.Fatalf("Erro ao abrir arquivo Excel: %s", err)
+		return err
 	}
 
 	var wgProducers sync.WaitGroup
@@ -33,24 +31,9 @@ func ReadFile(excelFileName string, ch chan<- []string) {
 				var line []string
 				// Itera sobre as células da linha
 				for _, cell := range row.Cells {
-					
 					text := cell.String() // Obtém o valor da célula como texto
-					if text == ""{
-						text = "teste"
-					}
-
 					line = append(line, text)
 				}
-
-				if len(line) < 55 {
-					emptyLines := 54 - len(line)
-					for i := 0; i <= emptyLines; i++ {
-						text := "teste"
-
-						line = append(line, text)
-					}
-				}
-
 				ch <- line
 			}
 		}(sheet)
@@ -59,24 +42,24 @@ func ReadFile(excelFileName string, ch chan<- []string) {
 	// Aguarda todas as goroutines produtoras terminarem
 	wgProducers.Wait()
 	close(ch)
+	
+	return nil
 }
 
-func ConsumeFileAndSaveData(ch <-chan []string, wg *sync.WaitGroup) {
+func ConsumeFileAndSaveData(ch <-chan []string, wg *sync.WaitGroup, db *sql.DB) error {
 	defer wg.Done()
 	var data [][]string // Array para armazenar os dados
 
 	for val := range ch {
-		data = append(data, val) // Salva os dados no array
+		sanitizedVal := Sanitize(val)
+		data = append(data, sanitizedVal) // Salva os dados no array
 	}
 
 	//*****************TEMPORÁRIO*******************
-	db, err := database.ConnectDB()
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer db.Close()
 
 	rep := repository.NewReconRepository(db)
 	rep.SaveData(data)
 	//*****************TEMPORÁRIO*******************
+
+	return nil
 }
