@@ -55,3 +55,12 @@ CREATE TABLE reconfile (
     BenefitId VARCHAR,
     BenefitType VARCHAR
 );
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    email VARCHAR UNIQUE NOT NULL,
+    password VARCHAR NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
