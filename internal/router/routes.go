@@ -7,7 +7,7 @@ import (
 )
 
 func initializeRoutes(r *gin.Engine) {
-	
-	r.POST("/upload", controllers.UploadFile)
+
+	r.POST("/saveData", controllers.UploadFileAndSaveData)
 
 }
