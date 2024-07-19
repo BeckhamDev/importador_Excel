@@ -2,13 +2,14 @@ package database
 
 import (
 	"database/sql"
+	"importador_Excel/config"
 
 	_ "github.com/lib/pq"
 )
 
 func ConnectDB() (*sql.DB, error) {
 
-	conString := "user=postgres dbname=enube_teste sslmode=disable password=rootroot host=localhost port=5432"
+	conString := config.ConnectDBUrl
 	db, err := sql.Open("postgres", conString)
 	if err != nil {
 		return nil, err
