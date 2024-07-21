@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"importador_Excel/internal/models"
 	"strings"
 
 	"github.com/google/uuid"
@@ -32,4 +33,320 @@ func (c *Reconfile) SaveData(data [][]string) error {
 	}
 
 	return nil
+}
+
+func (c *Reconfile) GetByCustomerName(customerName string) ([]models.FileRow, error){
+	sql := "SELECT * FROM reconfile WHERE customername = $1"
+	stmt, err := c.db.Query(sql, customerName)
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var rows []models.FileRow
+
+	for stmt.Next() {
+		var row models.FileRow
+		if err = stmt.Scan(
+			&row.PartnerId,                  
+			&row.PartnerName,      
+			&row.CustomerId,   
+			&row.CustomerName,
+			&row.CustomerDomainName,
+			&row.CustomerCountry,
+			&row.MpnId,
+			&row.Tier2MpnId,
+			&row.InvoiceNumber,
+			&row.ProductId,
+			&row.SkuId,
+			&row.AvaliabilityId,
+			&row.SkuName,
+			&row.ProductName,
+			&row.PublisherName,
+			&row.PublisherId,
+			&row.SubscriptionDescription,
+			&row.SubscriptionId,
+			&row.ChargeStartDate,
+			&row.ChargeEndDate,
+			&row.UsageDate,
+			&row.MeterType,
+			&row.MeterCategory,
+			&row.MeterId,
+			&row.MeterSubCategory,
+			&row.MeterName,
+			&row.MeterRegion,
+			&row.Unit,
+			&row.ResourceLocation,
+			&row.ConsumedService,
+			&row.ResourceGroup,
+			&row.ResourceURI,
+			&row.ChargeType,
+			&row.UnitPrice,
+			&row.Quantity,
+			&row.UnitType,
+			&row.BillingPreTaxTotal,
+			&row.BillingCurrency,
+			&row.PricingPreTaxTotal,
+			&row.PricingCurrency,
+			&row.ServiceInfo1,
+			&row.ServiceInfo2,
+			&row.Tags,
+			&row.AdditionalInfo,
+			&row.EffectiveUnitPrice,
+			&row.PCToBCExchangeRate,
+			&row.PCToBCExchangeRateDate,
+			&row.EntitlementId,
+			&row.EntitlementDescription,
+			&row.PartnerEarnedCreditPercentage,
+			&row.CreditPercentage,
+			&row.CreditType,
+			&row.BenefitOrderId,
+			&row.BenefitId,
+			&row.BenefitType,
+			
+		); err != nil {
+			return nil, err
+		}
+
+		rows = append(rows, row)
+	}
+
+	return rows, nil
+}
+
+func (c *Reconfile) GetByMeterCategory(meterCategory string) ([]models.FileRow, error){
+	sql := "SELECT * FROM reconfile WHERE metercategory = $1"
+	stmt, err := c.db.Query(sql, meterCategory)
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var rows []models.FileRow
+
+	for stmt.Next() {
+		var row models.FileRow
+		if err = stmt.Scan(
+			&row.PartnerId,                  
+			&row.PartnerName,      
+			&row.CustomerId,   
+			&row.CustomerName,
+			&row.CustomerDomainName,
+			&row.CustomerCountry,
+			&row.MpnId,
+			&row.Tier2MpnId,
+			&row.InvoiceNumber,
+			&row.ProductId,
+			&row.SkuId,
+			&row.AvaliabilityId,
+			&row.SkuName,
+			&row.ProductName,
+			&row.PublisherName,
+			&row.PublisherId,
+			&row.SubscriptionDescription,
+			&row.SubscriptionId,
+			&row.ChargeStartDate,
+			&row.ChargeEndDate,
+			&row.UsageDate,
+			&row.MeterType,
+			&row.MeterCategory,
+			&row.MeterId,
+			&row.MeterSubCategory,
+			&row.MeterName,
+			&row.MeterRegion,
+			&row.Unit,
+			&row.ResourceLocation,
+			&row.ConsumedService,
+			&row.ResourceGroup,
+			&row.ResourceURI,
+			&row.ChargeType,
+			&row.UnitPrice,
+			&row.Quantity,
+			&row.UnitType,
+			&row.BillingPreTaxTotal,
+			&row.BillingCurrency,
+			&row.PricingPreTaxTotal,
+			&row.PricingCurrency,
+			&row.ServiceInfo1,
+			&row.ServiceInfo2,
+			&row.Tags,
+			&row.AdditionalInfo,
+			&row.EffectiveUnitPrice,
+			&row.PCToBCExchangeRate,
+			&row.PCToBCExchangeRateDate,
+			&row.EntitlementId,
+			&row.EntitlementDescription,
+			&row.PartnerEarnedCreditPercentage,
+			&row.CreditPercentage,
+			&row.CreditType,
+			&row.BenefitOrderId,
+			&row.BenefitId,
+			&row.BenefitType,
+			
+		); err != nil {
+			return nil, err
+		}
+
+		rows = append(rows, row)
+	}
+
+	return rows, nil
+}
+
+func (c *Reconfile) GetByMeterRegion(meterRegion string) ([]models.FileRow, error){
+	sql := "SELECT * FROM reconfile WHERE meterregion = $1"
+	stmt, err := c.db.Query(sql, meterRegion)
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var rows []models.FileRow
+
+	for stmt.Next() {
+		var row models.FileRow
+		if err = stmt.Scan(
+			&row.PartnerId,                  
+			&row.PartnerName,      
+			&row.CustomerId,   
+			&row.CustomerName,
+			&row.CustomerDomainName,
+			&row.CustomerCountry,
+			&row.MpnId,
+			&row.Tier2MpnId,
+			&row.InvoiceNumber,
+			&row.ProductId,
+			&row.SkuId,
+			&row.AvaliabilityId,
+			&row.SkuName,
+			&row.ProductName,
+			&row.PublisherName,
+			&row.PublisherId,
+			&row.SubscriptionDescription,
+			&row.SubscriptionId,
+			&row.ChargeStartDate,
+			&row.ChargeEndDate,
+			&row.UsageDate,
+			&row.MeterType,
+			&row.MeterCategory,
+			&row.MeterId,
+			&row.MeterSubCategory,
+			&row.MeterName,
+			&row.MeterRegion,
+			&row.Unit,
+			&row.ResourceLocation,
+			&row.ConsumedService,
+			&row.ResourceGroup,
+			&row.ResourceURI,
+			&row.ChargeType,
+			&row.UnitPrice,
+			&row.Quantity,
+			&row.UnitType,
+			&row.BillingPreTaxTotal,
+			&row.BillingCurrency,
+			&row.PricingPreTaxTotal,
+			&row.PricingCurrency,
+			&row.ServiceInfo1,
+			&row.ServiceInfo2,
+			&row.Tags,
+			&row.AdditionalInfo,
+			&row.EffectiveUnitPrice,
+			&row.PCToBCExchangeRate,
+			&row.PCToBCExchangeRateDate,
+			&row.EntitlementId,
+			&row.EntitlementDescription,
+			&row.PartnerEarnedCreditPercentage,
+			&row.CreditPercentage,
+			&row.CreditType,
+			&row.BenefitOrderId,
+			&row.BenefitId,
+			&row.BenefitType,
+			
+		); err != nil {
+			return nil, err
+		}
+
+		rows = append(rows, row)
+	}
+
+	return rows, nil
+}
+
+func (c *Reconfile) GetByResourceGroup(resourceGroup string) ([]models.FileRow, error){
+	sql := "SELECT * FROM reconfile WHERE resourcegroup = $1"
+	stmt, err := c.db.Query(sql, resourceGroup)
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	var rows []models.FileRow
+
+	for stmt.Next() {
+		var row models.FileRow
+		if err = stmt.Scan(
+			&row.PartnerId,                  
+			&row.PartnerName,      
+			&row.CustomerId,   
+			&row.CustomerName,
+			&row.CustomerDomainName,
+			&row.CustomerCountry,
+			&row.MpnId,
+			&row.Tier2MpnId,
+			&row.InvoiceNumber,
+			&row.ProductId,
+			&row.SkuId,
+			&row.AvaliabilityId,
+			&row.SkuName,
+			&row.ProductName,
+			&row.PublisherName,
+			&row.PublisherId,
+			&row.SubscriptionDescription,
+			&row.SubscriptionId,
+			&row.ChargeStartDate,
+			&row.ChargeEndDate,
+			&row.UsageDate,
+			&row.MeterType,
+			&row.MeterCategory,
+			&row.MeterId,
+			&row.MeterSubCategory,
+			&row.MeterName,
+			&row.MeterRegion,
+			&row.Unit,
+			&row.ResourceLocation,
+			&row.ConsumedService,
+			&row.ResourceGroup,
+			&row.ResourceURI,
+			&row.ChargeType,
+			&row.UnitPrice,
+			&row.Quantity,
+			&row.UnitType,
+			&row.BillingPreTaxTotal,
+			&row.BillingCurrency,
+			&row.PricingPreTaxTotal,
+			&row.PricingCurrency,
+			&row.ServiceInfo1,
+			&row.ServiceInfo2,
+			&row.Tags,
+			&row.AdditionalInfo,
+			&row.EffectiveUnitPrice,
+			&row.PCToBCExchangeRate,
+			&row.PCToBCExchangeRateDate,
+			&row.EntitlementId,
+			&row.EntitlementDescription,
+			&row.PartnerEarnedCreditPercentage,
+			&row.CreditPercentage,
+			&row.CreditType,
+			&row.BenefitOrderId,
+			&row.BenefitId,
+			&row.BenefitType,
+			
+		); err != nil {
+			return nil, err
+		}
+
+		rows = append(rows, row)
+	}
+
+	return rows, nil
 }

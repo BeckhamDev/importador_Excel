@@ -17,6 +17,10 @@ func initializeRoutes(r *gin.Engine) {
 	app.Use(middleware.AuthRequired())
 	{
 		app.POST("/saveData", controllers.UploadFileAndSaveData)
+		app.GET("/customersByName/:customerName", controllers.GetRowByCustomerName)
+		app.GET("/customersByMeterCategory/:meterCategory", controllers.GetRowByMeterCategory)
+		app.GET("/customersByMeterRegion/:meterRegion", controllers.GetRowByMeterRegion)
+		app.GET("/customersByResourceGroup/:resourceGroup", controllers.GetRowByResourceGroup)
 	}
 
 }

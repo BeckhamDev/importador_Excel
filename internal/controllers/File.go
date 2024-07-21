@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"importador_Excel/internal/database"
+	"importador_Excel/internal/repository"
 	"importador_Excel/internal/scripts"
 	"net/http"
 	"os"
@@ -71,4 +72,101 @@ func UploadFileAndSaveData(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Dados salvos com sucesso!"})
+}
+
+func GetRowByCustomerName(c *gin.Context) {
+	customerName := c.Param("customerName")
+	if customerName == "" || customerName == " " {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Identificador inválido"})
+		return
+	}
+
+	db, err := database.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+	defer db.Close()
+
+	rep := repository.NewReconRepository(db)
+	rows, err := rep.GetByCustomerName(customerName)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"Customers": rows})
+}
+
+
+func GetRowByMeterCategory(c *gin.Context) {
+	meterCategory := c.Param("meterCategory")
+	if meterCategory == "" || meterCategory == " " {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Identificador inválido"})
+		return
+	}
+
+	db, err := database.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+	defer db.Close()
+
+	rep := repository.NewReconRepository(db)
+	rows, err := rep.GetByMeterCategory(meterCategory)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"Customers": rows})
+}
+
+func GetRowByMeterRegion(c *gin.Context) {
+	meterRegion := c.Param("meterRegion")
+	if meterRegion == "" || meterRegion == " " {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Identificador inválido"})
+		return
+	}
+
+	db, err := database.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+	defer db.Close()
+
+	rep := repository.NewReconRepository(db)
+	rows, err := rep.GetByMeterRegion(meterRegion)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"Customers": rows})
+}
+
+func GetRowByResourceGroup(c *gin.Context) {
+	resourceGroup := c.Param("resourceGroup")
+	if resourceGroup == "" || resourceGroup == " " {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Identificador inválido"})
+		return
+	}
+
+	db, err := database.ConnectDB()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+	defer db.Close()
+
+	rep := repository.NewReconRepository(db)
+	rows, err := rep.GetByResourceGroup(resourceGroup)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"Customers": rows})
 }
